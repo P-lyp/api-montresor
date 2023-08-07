@@ -9,12 +9,12 @@ app.use(express.json());
 app.use(cors());
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBbHMX-6cW5lWUpdL8bEn3nkndgIam_chw",
-    authDomain: "bd-cervejaria.firebaseapp.com",
-    projectId: "bd-cervejaria",
-    storageBucket: "bd-cervejaria.appspot.com",
-    messagingSenderId: "893426681360",
-    appId: "1:893426681360:web:81132b0e042e9bc55a2c95",
+    apiKey: "AIzaSyDcV-xm16aJw-fC4NEyZZpaGCN1akAzt2Y",
+    authDomain: "bd-montresor.firebaseapp.com",
+    projectId: "bd-montresor",
+    storageBucket: "bd-montresor.appspot.com",
+    messagingSenderId: "261687964141",
+    appId: "1:261687964141:web:c9a312bb46e1d00eb7f7e4",
 };
 
 firebase.initializeApp(firebaseConfig);
