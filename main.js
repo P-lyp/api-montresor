@@ -47,7 +47,7 @@ app.get("/gastos", async (req, res) => {
 
     listaGastos.forEach((gasto) => {
         if (gasto.data instanceof firebase.firestore.Timestamp) {
-            gasto.data = gasto.data.toDate().toLocaleDateString();
+            gasto.data = gasto.data.toDate().toLocaleDateString("pt-BR");
         }
     });
 
