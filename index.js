@@ -19,21 +19,21 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const compras = db.collection("compras");
+const compras = db.collection("gastos");
 
 app.get("/", (req, res) => {
     console.log("Requisição GET concluída!");
     res.send("API da Montresor funcionando! - Firebase");
 });
 
-app.put("/compras", async (req, res) => {
+app.put("/gastos", async (req, res) => {
     const newData = req.body;
     await compras.add(newData);
 
-    res.send("Uusário armazenado com sucesso!");
+    res.send("Usário armazenado com sucesso!");
 });
 
-app.get("/compras", async (req, res) => {
+app.get("/gastos", async (req, res) => {
     const snapshot = await compras.get();
     listaCompras = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.send(listaCompras);
