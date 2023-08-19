@@ -19,7 +19,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const gastos = db.collection("gastos");
+const gastos = db.collection("gastos").orderBy("data", "desc");
 
 app.get("/", (req, res) => {
     console.log("Requisição GET concluída!");
