@@ -34,9 +34,8 @@ app.put("/gastos", async (req, res) => {
 });
 
 app.get("/gastos", async (req, res) => {
-    const snapshot = await gastos.get();
+    const snapshot = await gastos.orderBy("data", "desc").get();
     listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    listaGastos.orderBy("data", "desc");
     res.send(listaGastos);
 });
 
