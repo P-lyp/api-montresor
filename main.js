@@ -28,9 +28,17 @@ app.get("/", (req, res) => {
 
 app.put("/gastos", async (req, res) => {
     const newData = req.body;
+
+    const dateParts = newData.data.split("/");
+    const timestamp = new firebase.firestore.Timestamp(
+        Date.parse(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`) / 1000,
+        0
+    );
+
+    newData.data = timestamp;
     await gastos.add(newData);
 
-    res.send(JSON.stringify("Usário armazenado com sucesso!"));
+    res.send(JSON.stringify("Gasto armazenado com sucesso!"));
 });
 
 app.get("/gastos", async (req, res) => {
