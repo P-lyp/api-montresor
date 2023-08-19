@@ -36,7 +36,8 @@ app.put("/gastos", async (req, res) => {
 app.get("/gastos", async (req, res) => {
     const snapshot = await gastos.get();
     listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(listaGastos).orderBy("data", "desc");
+    listaGastos.orderBy("data", "desc");
+    res.send(listaGastos);
 });
 
 app.listen(process.env.PORT || 3000);
