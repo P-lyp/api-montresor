@@ -30,7 +30,7 @@ app.put("/gastos", async (req, res) => {
     const newData = req.body;
     await gastos.add(newData);
 
-    res.send(JSON.parse("Usário armazenado com sucesso!"));
+    res.send(JSON.stringify("Usário armazenado com sucesso!"));
 });
 
 app.get("/gastos", async (req, res) => {
