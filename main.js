@@ -9,12 +9,12 @@ app.use(express.json());
 app.use(cors());
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDcV-xm16aJw-fC4NEyZZpaGCN1akAzt2Y",
-    authDomain: "bd-montresor.firebaseapp.com",
-    projectId: "bd-montresor",
-    storageBucket: "bd-montresor.appspot.com",
-    messagingSenderId: "261687964141",
-    appId: "1:261687964141:web:c9a312bb46e1d00eb7f7e4",
+    apiKey: "AIzaSyDFEvPBJrLaNFbVT5Hz5Z3ReGDhj5h7xtQ",
+    authDomain: "bd-montresor-d363c.firebaseapp.com",
+    projectId: "bd-montresor-d363c",
+    storageBucket: "bd-montresor-d363c.appspot.com",
+    messagingSenderId: "879040624305",
+    appId: "1:879040624305:web:b66826bebe54f773965490",
 };
 
 firebase.initializeApp(firebaseConfig);
