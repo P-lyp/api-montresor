@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const firebase = require("firebase");
 const cors = require("cors");
+const formatacaoData = require("date-fns");
 
 app.use(express.json());
 app.use(cors());
@@ -44,7 +45,13 @@ app.put("/gastos", async (req, res) => {
 app.get("/gastos", async (req, res) => {
     const snapshot = await gastos.orderBy("data", "desc").get();
     listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(listaGastos);
+
+    const listaGastosFormatada = listaGastos.map((gasto) => ({
+        ...gasto,
+        data: format(gasto.data.toDate(), "dd/MM/yyyy"),
+    }));
+
+    res.send(listaGastosFormatada);
 });
 
 app.listen(process.env.PORT || 3000);
