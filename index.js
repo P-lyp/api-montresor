@@ -19,7 +19,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const compras = db.collection("gastos");
+const gastos = db.collection("gastos");
 
 app.get("/", (req, res) => {
     console.log("Requisição GET concluída!");
@@ -28,15 +28,15 @@ app.get("/", (req, res) => {
 
 app.put("/gastos", async (req, res) => {
     const newData = req.body;
-    await compras.add(newData);
+    await gastos.add(newData);
 
     res.send("Usário armazenado com sucesso!");
 });
 
 app.get("/gastos", async (req, res) => {
-    const snapshot = await compras.get();
-    listaCompras = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(listaCompras);
+    const snapshot = await gastos.get();
+    listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    res.send(listaGastos);
 });
 
 app.listen(process.env.PORT || 3000);
