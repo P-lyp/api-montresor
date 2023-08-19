@@ -23,7 +23,7 @@ const gastos = db.collection("gastos");
 
 app.get("/", (req, res) => {
     console.log("Requisição GET concluída!");
-    res.send("API da Montresor funcionando! - Firebase");
+    res.send(JSON.stringify("API da Montresor funcionando! - Firebase"));
 });
 
 app.put("/gastos", async (req, res) => {
