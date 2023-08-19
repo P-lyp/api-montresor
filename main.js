@@ -19,7 +19,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const gastos = db.collection("gastos").orderBy("data", "desc");
+const gastos = db.collection("gastos");
 
 app.get("/", (req, res) => {
     console.log("Requisição GET concluída!");
@@ -36,7 +36,7 @@ app.put("/gastos", async (req, res) => {
 app.get("/gastos", async (req, res) => {
     const snapshot = await gastos.get();
     listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(listaGastos);
+    res.send(listaGastos.orderBy("data", "desc"));
 });
 
 app.listen(process.env.PORT || 3000);
