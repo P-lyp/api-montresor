@@ -54,4 +54,13 @@ app.get("/gastos", async (req, res) => {
     res.send(listaGastos);
 });
 
+app.delete("/gastos"),
+    async (req, res) => {
+        id = req.body;
+
+        gastos.filter((element) => element.id != id);
+
+        res.send(JSON.stringify("Gasto removido com sucesso!"));
+    };
+
 app.listen(process.env.PORT || 3000);
