@@ -55,7 +55,7 @@ app.get("/gastos", async (req, res) => {
 });
 
 app.delete("/gastos", async (req, res) => {
-    id = req.params.id;
+    id = req.body.id;
 
     try {
         await gastos.doc(id).delete();
