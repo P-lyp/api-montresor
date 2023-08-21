@@ -55,11 +55,14 @@ app.get("/gastos", async (req, res) => {
 });
 
 app.delete("/gastos", async (req, res) => {
-    id = req.body;
+    id = req.params.id;
 
-    gastos.filter((element) => element.id != id);
-
-    res.send(JSON.stringify("Gasto removido com sucesso!"));
+    try {
+        await gastos.doc(id).delete();
+        res.send(JSON.stringify("Gasto removido com sucesso!"));
+    } catch (error) {
+        res.status(500).send(JSON.stringify("Erro ao remover o gasto."));
+    }
 });
 
 app.listen(process.env.PORT || 3000);
