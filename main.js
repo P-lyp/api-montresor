@@ -65,4 +65,21 @@ app.delete("/gastos", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server rodando na porta ${PORT}`);
+});
+
+//ping para evitar inatividade
+const intervaloPing = 14 * 60 * 1000; // 14min em ms
+
+setInterval(() => {
+    require("http")
+        .get(`https://api-montresor.onrender.com`, (res) => {
+            console.log("Ping enviado com sucesso");
+        })
+        .on("error", (err) => {
+            console.error("Erro ao enviar ping:", err);
+        });
+}, intervaloPing);
