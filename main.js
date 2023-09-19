@@ -75,7 +75,7 @@ app.listen(PORT, () => {
 const intervaloPing = 14 * 60 * 1000; // 14min em ms
 
 setInterval(() => {
-    require("http")
+    require("https")
         .get(`https://api-montresor.onrender.com`, (res) => {
             console.log("Ping enviado com sucesso");
         })
