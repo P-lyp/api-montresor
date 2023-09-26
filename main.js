@@ -76,9 +76,7 @@ const intervaloPing = 14 * 60 * 1000; // 14min em ms
 
 setInterval(() => {
     require("https")
-        .get(`https://api-montresor.onrender.com`, (res) => {
-            console.log("Ping enviado com sucesso");
-        })
+        .get(`https://api-montresor.onrender.com`)
         .on("error", (err) => {
             console.error("Erro ao enviar ping:", err);
         });
