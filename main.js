@@ -69,10 +69,9 @@ app.delete("/gastos", async (req, res) => {
 
 app.get("/pedidos", async (req, res) => {
     const snapshot = await pedidos.orderBy("data", "desc").get();
-    console.log(snapshot);
     listaPedidos = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.dataInicio(),
+        ...doc.data(),
     }));
     console.log(listaPedidos);
 
