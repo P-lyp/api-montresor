@@ -20,10 +20,23 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const gastos = db.collection("gastos");
+const pedidos = db.collection("pedidos");
 
 app.get("/", (req, res) => {
-    console.log("Requisição GET concluída!");
     res.send(JSON.stringify("API da Montresor funcionando! - Firebase"));
+});
+
+app.get("/gastos", async (req, res) => {
+    const snapshot = await gastos.orderBy("data", "desc").get();
+    listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    listaGastos.forEach((gasto) => {
+        if (gasto.data instanceof firebase.firestore.Timestamp) {
+            gasto.data = gasto.data.toDate().toLocaleDateString("pt-BR");
+        }
+    });
+
+    res.send(listaGastos);
 });
 
 app.put("/gastos", async (req, res) => {
@@ -41,19 +54,6 @@ app.put("/gastos", async (req, res) => {
     res.send(JSON.stringify("Gasto armazenado com sucesso!"));
 });
 
-app.get("/gastos", async (req, res) => {
-    const snapshot = await gastos.orderBy("data", "desc").get();
-    listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-    listaGastos.forEach((gasto) => {
-        if (gasto.data instanceof firebase.firestore.Timestamp) {
-            gasto.data = gasto.data.toDate().toLocaleDateString("pt-BR");
-        }
-    });
-
-    res.send(listaGastos);
-});
-
 app.delete("/gastos", async (req, res) => {
     id = req.body.id;
 
@@ -63,6 +63,38 @@ app.delete("/gastos", async (req, res) => {
     } catch (error) {
         res.status(500).send(JSON.stringify("Erro ao remover o gasto."));
     }
+});
+
+//
+
+app.get("/pedidos", async (req, res) => {
+    const snapshot = await pedidos.orderBy("data", "desc").get();
+    listaPedidos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    listaPedidos.forEach((pedido) => {
+        if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
+            pedido.dataInicio = pedido.dataInicio
+                .toDate()
+                .toLocaleDateString("pt-BR");
+        }
+    });
+
+    res.send(listaPedidos);
+});
+
+app.put("/pedidos", async (req, res) => {
+    const newData = req.body;
+
+    const dateParts = newData.dataInicio.split("/");
+    const timestamp = new firebase.firestore.Timestamp(
+        Date.parse(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`) / 1000,
+        0
+    );
+
+    newData.dataInicio = timestamp;
+    await pedidos.add(newData);
+
+    res.send(JSON.stringify("Pedido armazenado com sucesso!"));
 });
 
 const PORT = process.env.PORT || 3000;
