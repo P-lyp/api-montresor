@@ -39,6 +39,25 @@ app.get("/gastos", async (req, res) => {
     res.send(listaGastos);
 });
 
+app.get("/pedidos", async (req, res) => {
+    const snapshot = await pedidos.orderBy("dataInicio", "desc").get();
+    listaPedidos = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+    console.log(listaPedidos);
+
+    listaPedidos.forEach((pedido) => {
+        if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
+            pedido.dataInicio = pedido.dataInicio
+                .toDate()
+                .toLocaleDateString("pt-BR");
+        }
+    });
+
+    res.send(listaPedidos);
+});
+
 app.put("/gastos", async (req, res) => {
     const newData = req.body;
 
@@ -65,27 +84,7 @@ app.delete("/gastos", async (req, res) => {
     }
 });
 
-//
-
-app.get("/pedidos", async (req, res) => {
-    const snapshot = await pedidos.orderBy("data", "desc").get();
-    listaPedidos = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-    }));
-    console.log(listaPedidos);
-
-    listaPedidos.forEach((pedido) => {
-        if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
-            pedido.dataInicio = pedido.dataInicio
-                .toDate()
-                .toLocaleDateString("pt-BR");
-        }
-    });
-
-    res.send(listaPedidos);
-});
-
+// funfando
 app.put("/pedidos", async (req, res) => {
     const newData = req.body;
 
