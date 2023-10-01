@@ -69,7 +69,12 @@ app.delete("/gastos", async (req, res) => {
 
 app.get("/pedidos", async (req, res) => {
     const snapshot = await pedidos.orderBy("data", "desc").get();
-    listaPedidos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    console.log(snapshot);
+    listaPedidos = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.dataInicio(),
+    }));
+    console.log(listaPedidos);
 
     listaPedidos.forEach((pedido) => {
         if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
