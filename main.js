@@ -44,6 +44,7 @@ app.get("/gastos", async (req, res) => {
 app.put("/gastos", async (req, res) => {
     const newData = req.body;
 
+    // conversao do modelo de data padrão para padrão firestore, para que depois possa exibir a data na ordem mais recente
     const dateParts = newData.data.split("/");
     const timestamp = new firebase.firestore.Timestamp(
         Date.parse(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`) / 1000,
@@ -87,10 +88,10 @@ app.get("/pedidos", async (req, res) => {
     res.send(listaPedidos);
 });
 
-// funfando
 app.put("/pedidos", async (req, res) => {
     const newData = req.body;
 
+    // conversao do modelo de data padrão para padrão firestore, para que depois possa exibir a data na ordem mais recente
     const dateParts = newData.dataInicio.split("/");
     const timestamp = new firebase.firestore.Timestamp(
         Date.parse(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`) / 1000,
@@ -101,6 +102,17 @@ app.put("/pedidos", async (req, res) => {
     await pedidos.add(newData);
 
     res.send(JSON.stringify("Pedido armazenado com sucesso!"));
+});
+
+app.delete("/pedidos", async (req, res) => {
+    id = req.body.id;
+
+    try {
+        await pedidos.doc(id).delete();
+        res.send(JSON.stringify("Pedido removido com sucesso!"));
+    } catch (error) {
+        res.status(500).send(JSON.stringify("Erro ao remover pedido."));
+    }
 });
 
 // FIM ROUTES
