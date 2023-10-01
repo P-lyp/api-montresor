@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
     res.send(JSON.stringify("API da Montresor funcionando! - Firebase"));
 });
 
+// ROUTES GASTOS
+
 app.get("/gastos", async (req, res) => {
     const snapshot = await gastos.orderBy("data", "desc").get();
     listaGastos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -37,25 +39,6 @@ app.get("/gastos", async (req, res) => {
     });
 
     res.send(listaGastos);
-});
-
-app.get("/pedidos", async (req, res) => {
-    const snapshot = await pedidos.orderBy("dataInicio", "desc").get();
-    listaPedidos = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-    }));
-    console.log(listaPedidos);
-
-    listaPedidos.forEach((pedido) => {
-        if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
-            pedido.dataInicio = pedido.dataInicio
-                .toDate()
-                .toLocaleDateString("pt-BR");
-        }
-    });
-
-    res.send(listaPedidos);
 });
 
 app.put("/gastos", async (req, res) => {
@@ -84,6 +67,26 @@ app.delete("/gastos", async (req, res) => {
     }
 });
 
+// ROUTES PEDIDOS
+
+app.get("/pedidos", async (req, res) => {
+    const snapshot = await pedidos.orderBy("dataInicio", "desc").get();
+    listaPedidos = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+
+    listaPedidos.forEach((pedido) => {
+        if (pedido.dataInicio instanceof firebase.firestore.Timestamp) {
+            pedido.dataInicio = pedido.dataInicio
+                .toDate()
+                .toLocaleDateString("pt-BR");
+        }
+    });
+
+    res.send(listaPedidos);
+});
+
 // funfando
 app.put("/pedidos", async (req, res) => {
     const newData = req.body;
@@ -99,6 +102,8 @@ app.put("/pedidos", async (req, res) => {
 
     res.send(JSON.stringify("Pedido armazenado com sucesso!"));
 });
+
+// FIM ROUTES
 
 const PORT = process.env.PORT || 3000;
 
