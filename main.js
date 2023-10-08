@@ -115,6 +115,19 @@ app.delete("/pedidos", async (req, res) => {
     }
 });
 
+app.update("/pedidos", async (req, res) => {
+    id = req.body.id;
+
+    try {
+        await pedidos.doc(id).update({
+            finalizado: true,
+        });
+        res.send(JSON.stringify("Pedido finalizado"));
+    } catch (error) {
+        res.status(500).send(JSON.stringify("Erro ao finalizar pedido!"));
+    }
+});
+
 // FIM ROUTES
 
 const PORT = process.env.PORT || 3000;
