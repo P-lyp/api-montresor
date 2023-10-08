@@ -41,7 +41,7 @@ app.get("/gastos", async (req, res) => {
     res.send(listaGastos);
 });
 
-app.put("/gastos", async (req, res) => {
+app.post("/gastos", async (req, res) => {
     const newData = req.body;
 
     // conversao do modelo de data padrão para padrão firestore, para que depois possa exibir a data na ordem mais recente
@@ -88,7 +88,7 @@ app.get("/pedidos", async (req, res) => {
     res.send(listaPedidos);
 });
 
-app.put("/pedidos", async (req, res) => {
+app.post("/pedidos", async (req, res) => {
     const newData = req.body;
 
     // conversao do modelo de data padrão para padrão firestore, para que depois possa exibir a data na ordem mais recente
@@ -115,7 +115,7 @@ app.delete("/pedidos", async (req, res) => {
     }
 });
 
-app.update("/pedidos", async (req, res) => {
+app.put("/pedidos", async (req, res) => {
     id = req.body.id;
 
     try {
